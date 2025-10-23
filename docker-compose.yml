@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  IMD-Travel:
+    build:
+      context: .
+      dockerfile: IMD-Travel/Dockerfile
+    # Nome do serviço usado para comunicação interna (ex: http://IMD-Travel:8081)
+    container_name: IMD-Travel
+    ports:
+      - "8081:8081"
+    restart: on-failure
+
+  Fidelity:
+    build:
+      context: .
+      dockerfile: Fidelity/Dockerfile
+    container_name: Fidelity
+    ports:
+      - "8082:8082"
+
+    restart: on-failure
+
+  Exchange:
+    build:
+      context: .
+      dockerfile: Exchange/Dockerfile
+    container_name: Exchange
+    ports:
+      - "8083:8083"
+    restart: on-failure
+
+  Airlines-Hub:
+    build:
+      context: .
+      dockerfile: Airlines-Hub/Dockerfile
+    container_name: Airlines-Hub
+    ports:
+      - "8084:8084"
+    restart: on-failure
