@@ -32,14 +32,10 @@ public class FidelityController {
             fidelityService.processBonusPoints(userId, bonus);
             logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", userId, bonus);
             return ResponseEntity.noContent().build();
-        }
-
-        catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException e) {
             logger.warn("Erro ao adicionar pontos de bônus: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
-        }
-
-        catch (Exception e){
+        } catch (Exception e){
             logger.error("Erro inesperado ao adicionar pontos", e);
             return ResponseEntity.status(500).build();
         }
