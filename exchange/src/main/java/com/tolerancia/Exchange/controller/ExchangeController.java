@@ -25,21 +25,14 @@ public class ExchangeController {
     @GetMapping("/exchange")
     public ResponseEntity<Double> getExchangeRate() {
         try {
-            long start = System.nanoTime();
             double rate = exchangeService.getExchangeRate();
-            long elapsed = System.nanoTime() - start; // Tempo decorrido em nanosegundos
-            double elapsedMillis = elapsed / 1_000_000.0; // Converte para milissegundos
-
-            if (elapsedMillis > 1000) { // Tempo limite de 1 segundo
-                logger.warn("Tempo de resposta excedido: {} ms", elapsedMillis);
-                return ResponseEntity.status(504).build();
-            }
-
-            logger.info("Taxa de câmbio gerada com sucesso: {} em {} ms", rate, elapsedMillis);
+            logger.info("Taxa de câmbio gerada com sucesso: R$ {}", rate);
             return ResponseEntity.ok(rate);
-
+        } catch (IllegalStateException e) {
+            logger.warn("Erro ao obter taxa de câmbio: {}", e.getMessage());
+            return ResponseEntity.status(504).build();
         } catch (Exception e) {
-            logger.error("Erro ao obter a taxa de câmbio: ", e);
+            logger.error("Erro inesperado ao obter a taxa de câmbio: ", e);
             return ResponseEntity.status(500).build();
         }
     }
