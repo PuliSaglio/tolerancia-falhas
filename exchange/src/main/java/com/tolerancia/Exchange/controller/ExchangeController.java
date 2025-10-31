@@ -7,6 +7,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.concurrent.TimeoutException;
+
 @RestController
 public class ExchangeController {
 
@@ -28,7 +30,7 @@ public class ExchangeController {
             double rate = exchangeService.getExchangeRate();
             logger.info("Taxa de câmbio gerada com sucesso: R$ {}", rate);
             return ResponseEntity.ok(rate);
-        } catch (IllegalStateException e) {
+        } catch (TimeoutException e) {
             logger.warn("Erro ao obter taxa de câmbio: {}", e.getMessage());
             return ResponseEntity.status(504).build();
         } catch (Exception e) {
