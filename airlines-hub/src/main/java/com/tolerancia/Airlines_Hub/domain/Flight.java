@@ -1,0 +1,42 @@
+package com.tolerancia.Airlines_Hub.domain;
+
+public class Flight {
+
+    private  Long flightNumber;
+    private String day;
+    private double value;
+
+    public Flight(Long flightNumber, String day, double value) {
+        this.flightNumber = flightNumber;
+        this.day = day;
+        this.value = value;
+    }
+
+    public Flight() {
+
+    }
+
+    public Long getFlightNumber() {
+        return flightNumber;
+    }
+
+    public String getDay() {
+        return day;
+    }
+
+    public double getValue() {
+        return value;
+    }
+
+    public void setFlightNumber(Long flightNumber) {
+        this.flightNumber = flightNumber;
+    }
+
+    public void setValue(double value) {
+        this.value = value;
+    }
+
+    public void setDay(String day) {
+        this.day = day;
+    }
+}
