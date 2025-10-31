@@ -9,22 +9,21 @@ import java.util.Map;
 public class FidelityService {
 
     // Mapa para armazenar os pontos dos usuários.
-    private final Map<String, Integer> userPoints = new HashMap<>();
+    private final Map<Long, Integer> userPoints = new HashMap<>();
 
     /**
-     * Adiciona pontos de bônus para um usuário específico.
+     * Processa a adição de pontos de bônus para um usuário.
      *
-     * @param user - nome do usuário
-     * @param bonus - pontos de bônus a serem adicionados
-     * @return true se os pontos foram adicionados com sucesso, false caso contrário
+     * @param userId - Id do usuário
+     * @param bonus  - pontos de bônus a serem adicionados
+     * @throws IllegalArgumentException se os parâmetros forem inválidos
      */
-    public boolean addBonusPoints(String user, int bonus) {
-        if (user == null || user.isBlank() || bonus <= 0) {
-            return false; // Validação para entradas inválidas.
+    public void processBonusPoints(Long userId, Integer bonus) {
+        if (userId <= 0 || bonus <= 0) {
+            throw new IllegalArgumentException("Parâmetros inválidos: user='" + userId + "', bonus=" + bonus);
         }
 
         // Adiciona os pontos de bônus ao usuário.
-        userPoints.put(user, userPoints.getOrDefault(user, 0) + bonus);
-        return true;
+        userPoints.put(userId, userPoints.getOrDefault(userId, 0) + bonus);
     }
 }
