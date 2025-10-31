@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/fidelity")
 public class FidelityController {
 
     private final FidelityService fidelityService;
@@ -23,29 +22,21 @@ public class FidelityController {
     /**
      * Endpoint para adicionar pontos de bônus a um usuário.
      *
-     * @param user  - nome do usuário
+     * @param userId  - Id do usuário
      * @param bonus - pontos de bônus a serem adicionados
      * @return ResponseEntity indicando o sucesso ou falha da operação
      */
     @PostMapping("/bonus")
-    public ResponseEntity<Void> addBonusPoints(@RequestParam String user, @RequestParam int bonus) {
+    public ResponseEntity<Void> addBonusPoints(@RequestParam Long userId, @RequestParam Integer bonus) {
         try {
-            if (user == null || user.isBlank() || bonus <= 0) {
-                logger.warn("Tentativa de adicionar pontos de bônus com parâmetros inválidos: user='{}', bonus={}", user, bonus);
-                return ResponseEntity.badRequest().build();
-            }
-
-            boolean success = fidelityService.addBonusPoints(user, bonus);
-            if (success) {
-                logger.info("Pontos de bônus adicionados com sucesso: user='{}', bonus={}", user, bonus);
-                return ResponseEntity.ok().build();
-            } else {
-                logger.error("Falha ao adicionar pontos");
-                return ResponseEntity.status(500).build();
-            }
-
+            fidelityService.processBonusPoints(userId, bonus);
+            logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", userId, bonus);
+            return ResponseEntity.noContent().build();
+        } catch (IllegalArgumentException e) {
+            logger.warn("Erro ao adicionar pontos de bônus: {}", e.getMessage());
+            return ResponseEntity.badRequest().build();
         } catch (Exception e){
-            logger.error("Erro inesperado ao adicionar pontos");
+            logger.error("Erro inesperado ao adicionar pontos", e);
             return ResponseEntity.status(500).build();
         }
     }
