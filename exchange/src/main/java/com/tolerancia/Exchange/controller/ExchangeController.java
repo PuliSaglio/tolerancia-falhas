@@ -30,7 +30,7 @@ public class ExchangeController {
             double value = exchangeService.getExchangeRate();
             logger.info("Taxa de câmbio gerada com sucesso: R$ {}", value);
             return ResponseEntity.ok(value);
-        } catch (IllegalStateException e) {
+        } catch (TimeoutException e) {
             logger.warn("Erro ao obter taxa de câmbio: {}", e.getMessage());
             return ResponseEntity.status(504).build();
         } catch (Exception e) {

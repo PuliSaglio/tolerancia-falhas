@@ -26,7 +26,7 @@ public class ExchangeService {
 
         // Verifica se o tempo de resposta excedeu o limite
         if (elapsedMillis > TIMEOUT_MS) {
-            throw new IllegalStateException("Tempo de resposta excedido: " + elapsedMillis + "ms");
+            throw new TimeoutException("Tempo de resposta excedido: " + elapsedMillis + "ms");
         }
 
         return Math.round(rate * 100.0) / 100.0; // Arredonda para 2 casas decimais
