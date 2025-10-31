@@ -2,9 +2,9 @@ package com.tolerancia.Airlines_Hub.model;
 
 public class Flight {
 
-    private  Long flightNumber;
+    private Long flightNumber;
     private String day;
-    private double value;
+    private Double value;
 
     public Flight(Long flightNumber, String day, double value) {
         this.flightNumber = flightNumber;
@@ -32,7 +32,7 @@ public class Flight {
         this.flightNumber = flightNumber;
     }
 
-    public void setValue(double value) {
+    public void setValue(Double value) {
         this.value = value;
     }
 

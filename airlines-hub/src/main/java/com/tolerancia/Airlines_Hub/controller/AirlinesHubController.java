@@ -56,7 +56,7 @@ public class AirlinesHubController {
             Long transactionId = airlinesHubService.processSell(flight, day);
             logger.info("Venda realizada com sucesso: flight='{}', day='{}', transactionId='{}'",
                     flight, day, transactionId);
-            return ResponseEntity.ok().body(transactionId);
+            return ResponseEntity.ok(transactionId);
         } catch (IllegalArgumentException e) {
             logger.warn("Erro ao processar venda: {}", e.getMessage());
             return ResponseEntity.badRequest().build();
