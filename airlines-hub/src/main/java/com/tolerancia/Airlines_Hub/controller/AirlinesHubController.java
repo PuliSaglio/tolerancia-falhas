@@ -1,6 +1,6 @@
 package com.tolerancia.Airlines_Hub.controller;
 
-import com.tolerancia.Airlines_Hub.domain.Flight;
+import com.tolerancia.Airlines_Hub.model.Flight;
 import com.tolerancia.Airlines_Hub.service.AirlinesHubService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class AirlinesHubController {
 
     private static final Logger logger = LoggerFactory.getLogger(AirlinesHubController.class);
-    AirlinesHubService airlinesHubService;
+    private final AirlinesHubService airlinesHubService;
 
     public AirlinesHubController(AirlinesHubService airlinesHubService) {
         this.airlinesHubService = airlinesHubService;
@@ -56,7 +56,7 @@ public class AirlinesHubController {
             Long transactionId = airlinesHubService.processSell(flight, day);
             logger.info("Venda realizada com sucesso: flight='{}', day='{}', transactionId='{}'",
                     flight, day, transactionId);
-            return ResponseEntity.ok().body(transactionId);
+            return ResponseEntity.ok(transactionId);
         } catch (IllegalArgumentException e) {
             logger.warn("Erro ao processar venda: {}", e.getMessage());
             return ResponseEntity.badRequest().build();

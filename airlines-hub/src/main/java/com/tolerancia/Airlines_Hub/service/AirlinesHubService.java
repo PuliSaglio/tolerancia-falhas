@@ -1,6 +1,6 @@
 package com.tolerancia.Airlines_Hub.service;
 
-import com.tolerancia.Airlines_Hub.domain.Flight;
+import com.tolerancia.Airlines_Hub.model.Flight;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;

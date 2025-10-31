@@ -14,16 +14,16 @@ public class FidelityService {
     /**
      * Processa a adição de pontos de bônus para um usuário.
      *
-     * @param userId - Id do usuário
+     * @param user - Id do usuário
      * @param bonus  - pontos de bônus a serem adicionados
      * @throws IllegalArgumentException se os parâmetros forem inválidos
      */
-    public void processBonusPoints(Long userId, Integer bonus) {
-        if (userId <= 0 || bonus <= 0) {
-            throw new IllegalArgumentException("Parâmetros inválidos: user='" + userId + "', bonus=" + bonus);
+    public void processBonusPoints(Long user, Integer bonus) {
+        if (user <= 0 || bonus <= 0) {
+            throw new IllegalArgumentException("Parâmetros inválidos: user='" + user + "', bonus=" + bonus);
         }
 
         // Adiciona os pontos de bônus ao usuário.
-        userPoints.put(userId, userPoints.getOrDefault(userId, 0) + bonus);
+        userPoints.put(user, userPoints.getOrDefault(user, 0) + bonus);
     }
 }
