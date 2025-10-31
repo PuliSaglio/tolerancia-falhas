@@ -4,6 +4,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Random;
+import java.util.concurrent.TimeoutException;
 
 @Service
 public class ExchangeService {
@@ -17,7 +18,7 @@ public class ExchangeService {
      *
      * @return A taxa de câmbio desejada.
      */
-    public double getExchangeRate() {
+    public double getExchangeRate() throws TimeoutException {
         long start = System.nanoTime();
         double rate = 5.0 + random.nextDouble(); // Gera um valor aleatório entre 5.0 e 6.0
         long elapsedNano = System.nanoTime() - start; // Tempo decorrido em nanosegundos
