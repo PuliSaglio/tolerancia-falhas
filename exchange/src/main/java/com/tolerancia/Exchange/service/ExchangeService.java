@@ -23,7 +23,8 @@ public class ExchangeService {
         long elapsedNano = System.nanoTime() - start; // Tempo decorrido em nanosegundos
         double elapsedMillis = elapsedNano / 1_000_000.0; // Converte para milissegundos
 
-        if (elapsedMillis > TIMEOUT_MS) { // Tempo limite atingido
+        // Verifica se o tempo de resposta excedeu o limite
+        if (elapsedMillis > TIMEOUT_MS) {
             throw new IllegalStateException("Tempo de resposta excedido: " + elapsedMillis + "ms");
         }
 

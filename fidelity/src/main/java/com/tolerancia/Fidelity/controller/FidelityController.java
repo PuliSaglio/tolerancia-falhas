@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class FidelityController {
 
-    private final FidelityService fidelityService;
     private static final Logger logger = LoggerFactory.getLogger(FidelityController.class);
+    private final FidelityService fidelityService;
 
     public FidelityController(FidelityService fidelityService) {
         this.fidelityService = fidelityService;
@@ -22,15 +22,15 @@ public class FidelityController {
     /**
      * Endpoint para adicionar pontos de bônus a um usuário.
      *
-     * @param userId  - Id do usuário
+     * @param user  - Id do usuário
      * @param bonus - pontos de bônus a serem adicionados
      * @return ResponseEntity indicando o sucesso ou falha da operação
      */
     @PostMapping("/bonus")
-    public ResponseEntity<Void> addBonusPoints(@RequestParam Long userId, @RequestParam Integer bonus) {
+    public ResponseEntity<Void> addBonusPoints(@RequestParam Long user, @RequestParam Integer bonus) {
         try {
-            fidelityService.processBonusPoints(userId, bonus);
-            logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", userId, bonus);
+            fidelityService.processBonusPoints(user, bonus);
+            logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", user, bonus);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
             logger.warn("Erro ao adicionar pontos de bônus: {}", e.getMessage());

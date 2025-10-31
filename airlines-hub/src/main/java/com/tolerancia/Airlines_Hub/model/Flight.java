@@ -1,4 +1,4 @@
-package com.tolerancia.Airlines_Hub.domain;
+package com.tolerancia.Airlines_Hub.model;
 
 public class Flight {
 

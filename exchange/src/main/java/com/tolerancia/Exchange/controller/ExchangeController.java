@@ -20,14 +20,14 @@ public class ExchangeController {
     /**
      * Endpoint para obter a taxa de câmbio do Dólar para o Real.
      *
-     * @return A taxa de câmbio ou um erro se o tempo de resposta for excedido.
+     * @return O valor em real ou um erro se o tempo de resposta for excedido.
      */
     @GetMapping("/exchange")
     public ResponseEntity<Double> getExchangeRate() {
         try {
-            double rate = exchangeService.getExchangeRate();
-            logger.info("Taxa de câmbio gerada com sucesso: R$ {}", rate);
-            return ResponseEntity.ok(rate);
+            double value = exchangeService.getExchangeRate();
+            logger.info("Taxa de câmbio gerada com sucesso: R$ {}", value);
+            return ResponseEntity.ok(value);
         } catch (IllegalStateException e) {
             logger.warn("Erro ao obter taxa de câmbio: {}", e.getMessage());
             return ResponseEntity.status(504).build();
