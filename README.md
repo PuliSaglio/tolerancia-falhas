@@ -2,13 +2,50 @@
 
 ## Visão Geral
 
+Este projeto implementa um sistema distribuído de compra de passagens, desenvolvido com foco em tolerância a falhas. A solução adota uma arquitetura de microsserviços, na qual os componentes se comunicam por meio de serviços REST.
+
 ## Características Principais
 
+- Arquitetura de microsserviços desenvolvida com Spring Boot.
+- Comunicação entre serviços por meio de APIs REST.
+- Containerização e orquestração utilizando Docker.
+
+## Integrantes
+
+- Alexandre Dantas dos Santos
+- Antônio Higino Bisneto Leite de Medeiros
+- Ignacio Saglio Rossini
 
 ## Arquitetura
 
 ### Serviços
 
+1. **ImdTravel** (`/buyTicket`)
+   - Atua como ponto central de entrada do sistema
+   - Coordena e gerencia a comunicação entre os microsserviços
+   - Endpoint:
+     - POST `/buyTicket`: Processa compra com parâmetros:
+       - flight: número do voo a ser comprado
+       - day: data do voo a ser comprado  
+       - user: id do usuário que está executando a compra
+
+2. **AirlinesHub** (`/flight`, `/sell`)
+   - Gerencia produtos e vendas
+   - Endpoints:
+     - GET `/flight`: Retorna dados do vôo com os parâmetros:
+     - POST `/sell`: Processa venda e retorna ID único da transação
+
+3. **Exchange** (`/exchange`)
+   - Fornece taxa de conversão de moeda
+   - Endpoint:
+     - GET `/exchange`: Retorna taxa de conversão (número real positivo)
+
+4. **Fidelity** (`/bonus`)
+   - Gerencia programa de fidelidade
+   - Endpoint:
+     - POST `/bonus`: Registra pontos de bônus com parâmetros:
+       - user: ID do usuário
+       - bonus: valor inteiro do bônus
 
 ## Execução do Sistema
 
