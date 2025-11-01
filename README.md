@@ -30,7 +30,7 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
        - user: id do usuário que está executando a compra
 
 2. **AirlinesHub** (`/flight`, `/sell`)
-   - Gerencia produtos e vendas
+   - Gerencia compra do vôo
    - Endpoints:
      - GET `/flight`: Retorna dados do vôo com os parâmetros:
      - POST `/sell`: Processa venda e retorna ID único da transação
