@@ -13,7 +13,7 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
 ## Integrantes
 
 - Alexandre Dantas dos Santos
-- Antônio Higino Bisneto Leite de Medeiros
+- Antonio Higino Bisneto Leite Medeiros
 - Ignacio Saglio Rossini
 
 ## Arquitetura
@@ -28,17 +28,20 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
        - flight: número do voo a ser comprado
        - day: data do voo a ser comprado  
        - user: id do usuário que está executando a compra
+   - Porta: 8081
 
 2. **AirlinesHub** (`/flight`, `/sell`)
    - Gerencia compra do vôo
    - Endpoints:
      - GET `/flight`: Retorna dados do vôo com os parâmetros:
      - POST `/sell`: Processa venda e retorna ID único da transação
+   - Porta: 8084
 
 3. **Exchange** (`/exchange`)
    - Fornece taxa de conversão de moeda
    - Endpoint:
      - GET `/exchange`: Retorna taxa de conversão (número real positivo)
+   - Porta: 8083
 
 4. **Fidelity** (`/bonus`)
    - Gerencia programa de fidelidade
@@ -46,6 +49,7 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
      - POST `/bonus`: Registra pontos de bônus com parâmetros:
        - user: ID do usuário
        - bonus: valor inteiro do bônus
+   - Porta: 8082
 
 ## Execução do Sistema
 
