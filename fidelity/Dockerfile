@@ -20,7 +20,7 @@ COPY . .
 
 # 4. Executa o build, que agora reconhecerá a estrutura de módulos
 RUN mvn clean package -pl fidelity -am -DskipTests
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-alpine
 ARG JAR_FILE=fidelity/target/fidelity-*.jar
 COPY --from=build /app/${JAR_FILE} app.jar
 EXPOSE 8082
