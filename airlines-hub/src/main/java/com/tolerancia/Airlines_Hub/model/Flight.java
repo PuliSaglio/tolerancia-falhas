@@ -12,10 +12,6 @@ public class Flight {
         this.value = value;
     }
 
-    public Flight() {
-
-    }
-
     public Long getFlightNumber() {
         return flightNumber;
     }
