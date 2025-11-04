@@ -24,7 +24,7 @@ RUN mvn clean package -pl imd-travel -am -DskipTests
 
 
 # 2. FASE DE EXECUÇÃO
-FROM openjdk:21-jdk-slim
+FROM eclipse-temurin:21-jdk-alpine
 
 # ATENÇÃO: O nome do JAR é artifactId-version.jar.
 # Usamos o curinga '*' para o número da versão (ex: 0.0.1-SNAPSHOT)
