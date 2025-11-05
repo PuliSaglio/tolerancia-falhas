@@ -1,8 +1,10 @@
 package com.tolerancia.Exchange.controller;
 
 import com.tolerancia.Exchange.service.ExchangeService;
+import com.tolerancia.Failure_Simulator.FailureManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -14,9 +16,11 @@ public class ExchangeController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExchangeController.class);
     private final ExchangeService exchangeService;
+    private final FailureManager failureManager;
 
-    public ExchangeController(ExchangeService exchangeService) {
+    public ExchangeController(ExchangeService exchangeService, FailureManager failureManager) {
         this.exchangeService = exchangeService;
+        this.failureManager = failureManager;
     }
 
     /**
@@ -25,7 +29,10 @@ public class ExchangeController {
      * @return O valor em real ou um erro se o tempo de resposta for excedido.
      */
     @GetMapping("/exchange")
-    public ResponseEntity<Double> getExchangeRate() {
+    public ResponseEntity<?> getExchangeRate() {
+        ResponseEntity<?> failResponse = failureManager.maybeFail("/exchange");
+        if(failResponse != null) return failResponse;
+
         try {
             double value = exchangeService.getExchangeRate();
             logger.info("Taxa de câmbio gerada com sucesso: R$ {}", value);

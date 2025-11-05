@@ -18,6 +18,7 @@
         <module>fidelity</module>
         <module>exchange</module>
         <module>airlines-hub</module>
+        <module>failure-simulator</module>
     </modules>
 
 	<name>distribuidos-parent</name>
