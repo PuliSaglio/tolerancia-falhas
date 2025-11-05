@@ -27,7 +27,7 @@ public class IMDTravelController {
             return ResponseEntity.ok(purchase.getTransactionId());
         } catch (Exception e) {
             logger.error("Erro inesperado ao processar a compra");
-            throw new RuntimeException(e);
+            return ResponseEntity.status(500).build();
         }
     }
 }

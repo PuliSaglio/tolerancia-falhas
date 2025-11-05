@@ -24,7 +24,7 @@ public class ExchangeController {
      *
      * @return O valor em real ou um erro se o tempo de resposta for excedido.
      */
-    @GetMapping("/exchange")
+    @GetMapping("/convert")
     public ResponseEntity<Double> getExchangeRate() {
         try {
             double value = exchangeService.getExchangeRate();
