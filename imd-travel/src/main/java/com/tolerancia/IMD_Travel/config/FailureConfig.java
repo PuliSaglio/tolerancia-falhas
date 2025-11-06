@@ -1,4 +1,4 @@
-package com.tolerancia.Exchange.config;
+package com.tolerancia.IMD_Travel.config;
 
 import com.tolerancia.Failure_Simulator.FailureManager;
 import com.tolerancia.Failure_Simulator.FailureSpec;
@@ -15,15 +15,11 @@ public class FailureConfig {
     @Bean
     public FailureManager failureManager() {
         Map<String, FailureSpec> failureSpecs = Map.of(
-                "/exchange", new FailureSpec("Error", 0.1, 5)
+                "/buyTicket", new FailureSpec("Omission", 0.2, 0)
         );
 
-        Map<String, FailureStrategy> failureStrategies = Map.of(
-                //implementar ErrorFailure
-                "Error", new ErrorFailure()
-        );
 
-        return new FailureManager(failureSpecs, failureStrategies);
+        return new FailureManager(failureSpecs, null);
     }
 
 }

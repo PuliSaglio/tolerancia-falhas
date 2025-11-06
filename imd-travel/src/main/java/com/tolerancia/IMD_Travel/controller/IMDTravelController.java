@@ -1,5 +1,6 @@
 package com.tolerancia.IMD_Travel.controller;
 
+import com.tolerancia.Failure_Simulator.FailureManager;
 import com.tolerancia.IMD_Travel.model.PurchaseResponse;
 import com.tolerancia.IMD_Travel.service.IMDTravelService;
 import org.slf4j.Logger;
@@ -13,20 +14,23 @@ public class IMDTravelController {
 
     private static final Logger logger = LoggerFactory.getLogger(IMDTravelController.class);
     private final IMDTravelService imdTravelService;
+    private FailureManager failureManager;
 
-    private IMDTravelController(IMDTravelService imdTravelService){
+    private IMDTravelController(IMDTravelService imdTravelService, FailureManager failureManager) {
         this.imdTravelService = imdTravelService;
+        this.failureManager = failureManager;
     }
 
     @PostMapping("/buyTicket")
-    public ResponseEntity<Long> buyTicket(Long flight, String day, Long user) {
-        try{
+    public ResponseEntity<?> buyTicket(Long flight, String day, Long user) {
+
+        failureManager.omissionFailure("/buyTicket");
+
+
+        try {
             PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user);
-            logger.info("Compra realizada com sucesso: Flight: {}, Day: {}, User: {}", flight, day, user);
-            logger.info("Transaction ID: {}", purchase.getTransactionId());
             return ResponseEntity.ok(purchase.getTransactionId());
         } catch (Exception e) {
-            logger.error("Erro inesperado ao processar a compra");
             throw new RuntimeException(e);
         }
     }

@@ -1,7 +1,11 @@
 package com.tolerancia.Failure_Simulator;
 
+import com.tolerancia.Failure_Simulator.Exceptions.OmissionFailureException;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -44,4 +48,13 @@ public class FailureManager {
         }
         return null; // sem falhas
     }
+
+    public void omissionFailure(String endpointId) {
+        FailureSpec spec = specs.get(endpointId);
+
+        if (spec != null && ThreadLocalRandom.current().nextDouble() < spec.probability()) {
+            throw new OmissionFailureException();
+        }
+    }
+
 }
