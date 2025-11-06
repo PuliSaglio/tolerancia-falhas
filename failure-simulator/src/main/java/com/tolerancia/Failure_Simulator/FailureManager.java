@@ -57,5 +57,14 @@ public class FailureManager {
         }
         return false;
     }
+    
+    public boolean crashFailure(String endpointId) {
+        FailureSpec spec = specs.get(endpointId);
+
+        if (ThreadLocalRandom.current().nextDouble() < spec.probability()) {
+            return true;
+        }
+        return false;
+    }
 
 }

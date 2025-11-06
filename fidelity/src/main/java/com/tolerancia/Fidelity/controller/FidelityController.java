@@ -1,5 +1,6 @@
 package com.tolerancia.Fidelity.controller;
 
+import com.tolerancia.Failure_Simulator.FailureManager;
 import com.tolerancia.Fidelity.service.FidelityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,9 +15,11 @@ public class FidelityController {
 
     private static final Logger logger = LoggerFactory.getLogger(FidelityController.class);
     private final FidelityService fidelityService;
+    private FailureManager failureManager;
 
-    public FidelityController(FidelityService fidelityService) {
+    public FidelityController(FidelityService fidelityService, FailureManager failureManager) {
         this.fidelityService = fidelityService;
+        this.failureManager = failureManager;
     }
 
     /**
@@ -28,6 +31,11 @@ public class FidelityController {
      */
     @PostMapping("/bonus")
     public ResponseEntity<Void> addBonusPoints(@RequestParam Long user, @RequestParam Integer bonus) {
+    	//Checa por crash failure
+    	if(failureManager.crashFailure("/bonus")) {
+    		Runtime.getRuntime().halt(0);
+    	}
+    	
         try {
             fidelityService.processBonusPoints(user, bonus);
             logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", user, bonus);
