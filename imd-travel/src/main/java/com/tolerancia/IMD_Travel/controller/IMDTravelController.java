@@ -14,19 +14,15 @@ public class IMDTravelController {
 
     private static final Logger logger = LoggerFactory.getLogger(IMDTravelController.class);
     private final IMDTravelService imdTravelService;
-    private FailureManager failureManager;
 
-    private IMDTravelController(IMDTravelService imdTravelService, FailureManager failureManager) {
+
+    private IMDTravelController(IMDTravelService imdTravelService) {
         this.imdTravelService = imdTravelService;
-        this.failureManager = failureManager;
+
     }
 
     @PostMapping("/buyTicket")
     public ResponseEntity<?> buyTicket(Long flight, String day, Long user) {
-
-        failureManager.omissionFailure("/buyTicket");
-
-
         try {
             PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user);
             return ResponseEntity.ok(purchase.getTransactionId());

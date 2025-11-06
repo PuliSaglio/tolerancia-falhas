@@ -1,9 +1,7 @@
-package com.tolerancia.IMD_Travel.config;
+package com.tolerancia.Airlines_Hub.config;
 
 import com.tolerancia.Failure_Simulator.FailureManager;
 import com.tolerancia.Failure_Simulator.FailureSpec;
-import com.tolerancia.Failure_Simulator.FailureStrategy;
-import com.tolerancia.Failure_Simulator.strategies.ErrorFailure;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -15,7 +13,7 @@ public class FailureConfig {
     @Bean
     public FailureManager failureManager() {
         Map<String, FailureSpec> failureSpecs = Map.of(
-                "/buyTicket", new FailureSpec("Omission", 0.2, 0)
+                "/flight", new FailureSpec("Omission", 0.2, 0)
         );
 
 
