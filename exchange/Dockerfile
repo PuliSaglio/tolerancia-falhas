@@ -10,6 +10,7 @@ COPY imd-travel imd-travel
 COPY fidelity fidelity
 COPY exchange exchange
 COPY airlines-hub airlines-hub
+COPY failure-simulator failure-simulator
 
 # (Opcional, mas recomendado: baixar dependências para otimizar o cache)
 RUN mvn dependency:go-offline -pl exchange -am
