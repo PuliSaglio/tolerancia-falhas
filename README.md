@@ -37,7 +37,7 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
      - POST `/sell`: Processa venda e retorna ID único da transação
    - Porta: 8084
 
-3. **Exchange** (`/exchange`)
+3. **Exchange** (`/convert`)
    - Fornece taxa de conversão de moeda
    - Endpoint:
      - GET `/exchange`: Retorna taxa de conversão (número real positivo)
