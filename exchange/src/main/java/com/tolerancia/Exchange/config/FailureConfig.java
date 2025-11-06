@@ -15,7 +15,7 @@ public class FailureConfig {
     @Bean
     public FailureManager failureManager() {
         Map<String, FailureSpec> failureSpecs = Map.of(
-                "/exchange", new FailureSpec("Error", 0.1, 5)
+                "/convert", new FailureSpec("Error", 0.1, 5)
         );
 
         Map<String, FailureStrategy> failureStrategies = Map.of(

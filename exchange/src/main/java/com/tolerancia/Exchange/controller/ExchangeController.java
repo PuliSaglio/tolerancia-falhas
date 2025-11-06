@@ -28,9 +28,9 @@ public class ExchangeController {
      *
      * @return O valor em real ou um erro se o tempo de resposta for excedido.
      */
-    @GetMapping("/exchange")
+    @GetMapping("/convert")
     public ResponseEntity<?> getExchangeRate() {
-        ResponseEntity<?> failResponse = failureManager.maybeFail("/exchange");
+        ResponseEntity<?> failResponse = failureManager.maybeFail("/convert");
         if(failResponse != null) return failResponse;
 
         try {
