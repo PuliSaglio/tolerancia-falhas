@@ -49,12 +49,13 @@ public class FailureManager {
         return null; // sem falhas
     }
 
-    public void omissionFailure(String endpointId) {
+    public boolean omissionFailure(String endpointId) {
         FailureSpec spec = specs.get(endpointId);
 
-        if (spec != null && ThreadLocalRandom.current().nextDouble() < spec.probability()) {
-            throw new OmissionFailureException();
+        if (ThreadLocalRandom.current().nextDouble() < spec.probability()) {
+            return true;
         }
+        return false;
     }
 
 }
