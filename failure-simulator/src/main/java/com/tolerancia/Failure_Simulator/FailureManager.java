@@ -48,6 +48,28 @@ public class FailureManager {
         }
         return null; // sem falhas
     }
+    
+    public boolean timeFailure(String endpointId) {
+        FailureSpec spec = specs.get(endpointId);
+
+        ActiveFailure currentFailure = activeFailures.get(endpointId);
+
+        Instant now = Instant.now();
+        
+        if(currentFailure != null) {
+            if(now.isBefore(currentFailure.expiresAt())) {
+                return true;
+            }else{
+                activeFailures.remove(endpointId);
+            }
+        }
+        
+        if (ThreadLocalRandom.current().nextDouble() < spec.probability()) {
+        	activeFailures.put(endpointId, new ActiveFailure(spec.type(), now.plusSeconds(spec.durationSeconds())));
+        	return true;
+        }
+        return false;
+    }
 
     public boolean omissionFailure(String endpointId) {
         FailureSpec spec = specs.get(endpointId);

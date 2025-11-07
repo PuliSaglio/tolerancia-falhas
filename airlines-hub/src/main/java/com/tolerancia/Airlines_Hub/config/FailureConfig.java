@@ -13,7 +13,8 @@ public class FailureConfig {
     @Bean
     public FailureManager failureManager() {
         Map<String, FailureSpec> failureSpecs = Map.of(
-                "/flight", new FailureSpec("Omission", 0.2, 0)
+                "/flight", new FailureSpec("Omission", 0.2, 0),
+                "/bonus", new FailureSpec("Time", 0.1, 10)
         );
 
 

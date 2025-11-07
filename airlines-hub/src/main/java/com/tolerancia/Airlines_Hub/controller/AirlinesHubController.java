@@ -78,6 +78,16 @@ public class AirlinesHubController {
      */
     @PostMapping("/sell")
     public ResponseEntity<Long> sellFlight(@RequestParam Long flight, @RequestParam String day) {
+    	
+    	if (failureManager.timeFailure("/bonus")) {
+            try {
+				Thread.sleep(5000);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+        }
+    	
         try {
             Long transactionId = saleService.processSell(flight, day);
             logger.info("Venda realizada com sucesso: flight='{}', day='{}', transactionId='{}'",
