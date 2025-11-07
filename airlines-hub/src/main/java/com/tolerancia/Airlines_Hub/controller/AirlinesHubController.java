@@ -90,7 +90,7 @@ public class AirlinesHubController {
     	
         try {
             Long transactionId = saleService.processSell(flight, day);
-            logger.info("Venda realizada com sucesso: flight='{}', day='{}', transactionId='{}'",
+            logger.info("Venda em processo: flight='{}', day='{}', transactionId='{}'",
                     flight, day, transactionId);
             return ResponseEntity.ok(transactionId);
         } catch (IllegalArgumentException e) {

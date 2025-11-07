@@ -9,6 +9,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.NoSuchElementException;
+
 @RestController
 public class IMDTravelController {
 
@@ -27,9 +29,15 @@ public class IMDTravelController {
             logger.info("Compra realizada com sucesso. Flight: {}, Day: {}, User: {}", flight, day, user);
             logger.info("Transaction ID: {}", purchase.getTransactionId());
             return ResponseEntity.ok(purchase.getTransactionId());
+        } catch (IllegalArgumentException e) {
+            logger.warn(e.getMessage());
+            return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (NoSuchElementException e) {
+            logger.warn(e.getMessage());
+            return ResponseEntity.noContent().build();
         } catch (Exception e) {
-            logger.error("Erro ao processar compra de passagem: {}", e.getMessage());
-            return ResponseEntity.status(500).build();
+          logger.error("Erro ao processar compra de passagem: {}", e.getMessage());
+          return ResponseEntity.status(500).build();
         }
     }
 }

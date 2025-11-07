@@ -18,6 +18,10 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
 
 ## Arquitetura
 
+### Características
+
+Ao executar uma consulta de voo, o sistema retornará o status code 204 (No Content) quando o voo solicitado não for encontrado. Os voos válidos são gerenciados pela classe FlightService, que os mantém armazenados em estruturas de dados internas do projeto.
+
 ### Serviços
 
 1. **ImdTravel** (`/buyTicket`)
@@ -35,6 +39,9 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
    - Endpoints:
      - GET `/flight`: Retorna dados do vôo com os parâmetros:
      - POST `/sell`: Processa venda e retorna ID único da transação
+     - Parâmetros (para ambos os endpoints): 
+       - flight: número do voo a ser comprado
+       - day: data do voo a ser comprado  
    - Porta: 8084
 
 3. **Exchange** (`/convert`)
@@ -50,6 +57,16 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
        - user: ID do usuário
        - bonus: valor inteiro do bônus
    - Porta: 8082
+
+### Falhas
+
+As falhas podem acontecer em cada uma das requisições da
+seguinte forma (Baseado na estrutura: Tipo, Probabilidade, Duração):
+
+- Request 1: Fail (Omission, 0.2, 0s)
+- Request 2: Fail (Error, 0.1, 5s)
+- Request 3: Fail (Time=5s, 0.1, 10s)
+- Request 4: Fail (Crash, 0.02, _ )
 
 ## Execução do Sistema
 
