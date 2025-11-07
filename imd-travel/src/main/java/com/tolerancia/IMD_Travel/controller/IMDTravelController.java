@@ -15,7 +15,6 @@ public class IMDTravelController {
     private static final Logger logger = LoggerFactory.getLogger(IMDTravelController.class);
     private final IMDTravelService imdTravelService;
 
-
     private IMDTravelController(IMDTravelService imdTravelService) {
         this.imdTravelService = imdTravelService;
 
@@ -25,9 +24,12 @@ public class IMDTravelController {
     public ResponseEntity<?> buyTicket(Long flight, String day, Long user) {
         try {
             PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user);
+            logger.info("Compra realizada com sucesso. Flight: {}, Day: {}, User: {}", flight, day, user);
+            logger.info("Transaction ID: {}", purchase.getTransactionId());
             return ResponseEntity.ok(purchase.getTransactionId());
         } catch (Exception e) {
-            throw new RuntimeException(e);
+            logger.error("Erro ao processar compra de passagem: {}", e.getMessage());
+            return ResponseEntity.status(500).build();
         }
     }
 }

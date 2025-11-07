@@ -40,7 +40,7 @@ public class AirlinesHubController {
     @GetMapping("/flight")
     public DeferredResult<ResponseEntity<?>> getFlight(@RequestParam Long flight, @RequestParam String day) {
 
-        DeferredResult<ResponseEntity<?>> deferred = new DeferredResult<>();
+        DeferredResult<ResponseEntity<?>> deferred = new DeferredResult<>(6000000L);
 
         if (failureManager.omissionFailure("/flight")) {
             logger.info("entrou no omission deferred='{}'", deferred);
