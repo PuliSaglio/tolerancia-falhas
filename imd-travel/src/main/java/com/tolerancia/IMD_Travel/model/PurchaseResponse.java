@@ -6,21 +6,19 @@ public class PurchaseResponse {
     private Long user;
     private String day;
     private Double valueDolar;
-    private Double valueReal;
+    private Double rate;
     private Long transactionId;
 
-    public PurchaseResponse(Long flight, Long user, String day, Double valueDolar, Double valueReal, Long transactionId) {
+    public PurchaseResponse(Long flight, Long user, String day, Double valueDolar, Double rate, Long transactionId) {
         this.flight = flight;
         this.user = user;
         this.day = day;
         this.valueDolar = valueDolar;
-        this.valueReal = valueReal;
+        this.rate = rate;
         this.transactionId = transactionId;
     }
 
-    public PurchaseResponse() {
-
-    }
+    public PurchaseResponse() { }
 
     public Long getFlight() {
         return flight;
@@ -38,8 +36,8 @@ public class PurchaseResponse {
         return valueDolar;
     }
 
-    public Double getValueReal() {
-        return valueReal;
+    public Double getRate() {
+        return rate;
     }
 
     public Long getTransactionId() {
@@ -62,8 +60,8 @@ public class PurchaseResponse {
         this.valueDolar = valueDolar;
     }
 
-    public void setValueReal(Double valueReal) {
-        this.valueReal = valueReal;
+    public void setRate(Double rate) {
+        this.rate = rate;
     }
 
     public void setTransactionId(Long transactionId) {

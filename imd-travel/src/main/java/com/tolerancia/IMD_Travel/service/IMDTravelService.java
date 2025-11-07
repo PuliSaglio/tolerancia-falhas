@@ -33,8 +33,8 @@ public class IMDTravelService {
 
             // Request 2 - taxa de câmbio
             String exchangeUrl = "http://exchange:8083";
-            Double valueReal = rest.getForObject(exchangeUrl +"/convert", Double.class);
-            purchaseResponse.setValueReal(valueReal);
+            Double rate = rest.getForObject(exchangeUrl +"/convert", Double.class);
+            purchaseResponse.setRate(rate);
 
             // Request 3 - registrar venda
             ResponseEntity<Long> sellResp = rest.postForEntity(

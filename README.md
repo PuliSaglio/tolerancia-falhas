@@ -65,5 +65,5 @@ docker-compose up --build
 Para testar o sistema após a inicialização:
 
 ```bash
-curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user=3""
+curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user=3"
 ```
