@@ -55,11 +55,11 @@ public class AirlinesHubController {
             return deferred;
 
         } catch (IllegalArgumentException e) {
-            logger.warn("Erro ao buscar informações do voo: {}", e.getMessage());
+            logger.warn("Erro ao buscar informações do voo - {}", e.getMessage());
             deferred.setResult(new ResponseEntity<>(HttpStatus.BAD_REQUEST));
             return deferred;
         } catch (NoSuchElementException e) {
-            logger.warn("Falha na localização do võo: {}", e.getMessage());
+            logger.warn("Falha na localização do võo - {}", e.getMessage());
             deferred.setResult(new ResponseEntity<>(HttpStatus.NO_CONTENT));
             return deferred;
         } catch (Exception e) {

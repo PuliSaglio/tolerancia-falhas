@@ -1,6 +1,8 @@
 package com.tolerancia.IMD_Travel.service;
 
 import com.tolerancia.IMD_Travel.model.PurchaseResponse;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.HttpClientErrorException;
@@ -58,9 +60,11 @@ public class IMDTravelService {
 
     private Map<String, Object> getFlightData(Long flight, String day) {
         try {
-            ResponseEntity<Map> flightResp = rest.getForEntity(
-                String.format("%s/flight?flight=%s&day=%s", AIRLINES_URL, flight, day),
-                Map.class
+            ResponseEntity<Map<String, Object>> flightResp = rest.exchange(
+                    String.format("%s/flight?flight=%s&day=%s", AIRLINES_URL, flight, day),
+                    HttpMethod.GET,
+                    null,
+                    new ParameterizedTypeReference<Map<String, Object>>() {}
             );
 
             if (!flightResp.getStatusCode().is2xxSuccessful() || flightResp.getBody() == null) {
