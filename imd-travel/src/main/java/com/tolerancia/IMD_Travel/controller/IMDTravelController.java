@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.NoSuchElementException;
@@ -23,9 +24,10 @@ public class IMDTravelController {
     }
 
     @PostMapping("/buyTicket")
-    public ResponseEntity<?> buyTicket(Long flight, String day, Long user) {
+    public ResponseEntity<?> buyTicket(@RequestParam Long flight, @RequestParam String day,
+                                       @RequestParam Long user, @RequestParam boolean ft) {
         try {
-            PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user);
+            PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user, ft);
             logger.info("Compra realizada com sucesso. Flight: {}, Day: {}, User: {}", flight, day, user);
             logger.info("Transaction ID: {}", purchase.getTransactionId());
             return ResponseEntity.ok(purchase.getTransactionId());

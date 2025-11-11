@@ -18,7 +18,7 @@ public class IMDTravelService {
     private final RestTemplate rest = new RestTemplate();
     private static final String AIRLINES_URL = "http://airlines-hub:8084";
 
-    public PurchaseResponse processTicketPurchase(Long flight, String day, Long user) {
+    public PurchaseResponse processTicketPurchase(Long flight, String day, Long user, boolean ft) {
 
         PurchaseResponse purchaseResponse = new PurchaseResponse();
 
