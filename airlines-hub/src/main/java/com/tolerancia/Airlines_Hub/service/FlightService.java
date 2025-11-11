@@ -12,6 +12,7 @@ public class FlightService {
 
     private final Map<Long, Flight> flights = new HashMap<>();
 
+    // Simulando um banco de dados com alguns voos pré-definidos
     public FlightService() {
         flights.put(1001L, new Flight(1001L, "2025-12-01", 1500.00));
         flights.put(1002L, new Flight(1002L, "2025-12-01", 2000.00));
