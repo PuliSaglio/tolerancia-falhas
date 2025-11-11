@@ -38,7 +38,7 @@ public class IMDTravelController {
             logger.warn(e.getMessage());
             return ResponseEntity.noContent().build();
         } catch (Exception e) {
-          logger.error("Erro ao processar compra de passagem: {}", e.getMessage());
+          logger.error("Erro ao finalizar compra de passagem. {}", e.getMessage());
           return ResponseEntity.status(500).build();
         }
     }

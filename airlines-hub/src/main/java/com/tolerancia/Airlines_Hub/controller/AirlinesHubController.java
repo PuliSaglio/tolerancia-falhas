@@ -79,22 +79,23 @@ public class AirlinesHubController {
     @PostMapping("/sell")
     public ResponseEntity<Long> sellFlight(@RequestParam Long flight, @RequestParam String day) {
     	
-    	if (failureManager.timeFailure("/bonus")) {
+    	if (failureManager.timeFailure("/sell")) {
             try {
 				Thread.sleep(5000);
 			} catch (InterruptedException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
         }
     	
         try {
             Long transactionId = saleService.processSell(flight, day);
-            logger.info("Venda em processo: flight='{}', day='{}', transactionId='{}'",
-                    flight, day, transactionId);
             return ResponseEntity.ok(transactionId);
+
+        } catch (NoSuchElementException e) {
+            logger.warn("Falha na localização do võo para venda - {}", e.getMessage());
+            return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            logger.warn("Erro ao processar venda: {}", e.getMessage());
+            logger.warn("Erro ao processar venda - {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         } catch (Exception e) {
             logger.error("Erro inesperado ao processar venda", e);

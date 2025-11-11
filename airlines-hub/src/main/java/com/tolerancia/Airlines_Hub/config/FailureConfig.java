@@ -14,7 +14,7 @@ public class FailureConfig {
     public FailureManager failureManager() {
         Map<String, FailureSpec> failureSpecs = Map.of(
                 "/flight", new FailureSpec("Omission", 0.2, 0),
-                "/bonus", new FailureSpec("Time", 0.1, 10)
+                "/sell", new FailureSpec("Time", 0.1, 10)
         );
 
 
