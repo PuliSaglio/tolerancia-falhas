@@ -28,7 +28,7 @@ public class IMDTravelController {
                                        @RequestParam Long user, @RequestParam boolean ft) {
         try {
             PurchaseResponse purchase = imdTravelService.processTicketPurchase(flight, day, user, ft);
-            logger.info("Compra realizada com sucesso. Flight: {}, Day: {}, User: {}", flight, day, user);
+            logger.info("Compra finalizada com sucesso. Flight: {}, Day: {}, User: {}", flight, day, user);
             logger.info("Transaction ID: {}", purchase.getTransactionId());
             return ResponseEntity.ok(purchase.getTransactionId());
         } catch (IllegalArgumentException e) {
