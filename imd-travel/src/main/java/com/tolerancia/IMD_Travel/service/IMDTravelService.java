@@ -25,6 +25,7 @@ public class IMDTravelService {
     private static final Logger logger = LoggerFactory.getLogger(IMDTravelService.class);
     private static final String AIRLINES_URL = "http://airlines-hub:8084";
     private static final String EXCHANGE_URL = "http://exchange:8083";
+    private static final String FIDELITY_URL = "http://fidelity:8082";
 
     // Armazena as últimas taxas de câmbio obtidas
     private static final Queue<Double> lastRates = new LinkedList<>();
@@ -53,13 +54,7 @@ public class IMDTravelService {
         purchaseResponse.setTransactionId(transactionId);
 
         // Request 4 - Fidelity
-        String fidelityUrl = "http://fidelity:8082";
-        rest.postForEntity(
-                String.format("%s/bonus?user=%s&bonus=%d", fidelityUrl, user,
-                        (int) Math.round(purchaseResponse.getValueDolar())),
-                null,
-                Void.class
-        );
+        registerBonus(user, valueUsd);
 
         return purchaseResponse;
     }
@@ -166,4 +161,26 @@ public class IMDTravelService {
             throw e;
         }
     }
+
+    private void registerBonus(Long user, double valueUsd) {
+        try {
+            int bonus = (int) Math.round(valueUsd);
+
+            rest.postForEntity(
+                    String.format("%s/bonus?user=%s&bonus=%d", FIDELITY_URL, user, bonus),
+                    null,
+                    Void.class
+            );
+
+        } catch (HttpClientErrorException.BadRequest e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } catch (HttpServerErrorException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Erro inesperado ao registrar pontos de bônus na Fidelity.", e);
+            throw e;
+        }
+    }
+
+
 }
