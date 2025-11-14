@@ -79,7 +79,7 @@ public class IMDTravelService {
 
             return flightResp.getBody();
 
-        } catch (HttpClientErrorException.BadRequest e) {
+        } catch (HttpClientErrorException.BadRequest e  ) {
             throw new IllegalArgumentException("Parâmetros inválidos para consulta de voo.", e);
         } catch (HttpServerErrorException e) {
             throw new RuntimeException("Erro interno no serviço de voos.", e);
@@ -96,22 +96,23 @@ public class IMDTravelService {
             );
 
             rate = exchangeResp.getBody();
+
+            if (rate == null) {
+                throw new IllegalStateException("Resposta válida do Exchange, mas body nulo.");
+            }
+
             addRateToCache(rate);
             return rate;
 
-        } catch (HttpServerErrorException e) {
+        } catch (HttpServerErrorException | ResourceAccessException e ) {
             if (ft) { // Tolerância ativa
                 rate = getAverageRate();
                 logger.warn("[FT] Aplicando fallback: taxa média calculada = {}", rate);
                 return rate;
             }
             throw new RuntimeException("Erro interno no serviço de câmbio.", e);
-        } catch (ResourceAccessException e) {
-            if (ft) { // Tolerância ativa
-                rate = getAverageRate();
-                logger.warn("[FT] Aplicando fallback: taxa média calculada = {}", rate);
-                return rate;
-            }
+        } catch (Exception e) {
+            logger.error("Erro inesperado ao obter taxa de câmbio.", e);
             throw e;
         }
     }
