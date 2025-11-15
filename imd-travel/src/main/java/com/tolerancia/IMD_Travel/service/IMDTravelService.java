@@ -40,13 +40,13 @@ public class IMDTravelService {
     public PurchaseResponse processTicketPurchase(Long flight, String day, Long user, boolean ft) {
 
         var flightData = flightService.getFlight(flight, day);
-        var rate = exchangeService.getRate();
+        var rate = exchangeService.getRate(ft);
         var saleId = salesService.registerSale(flight, day, ft);
 
         PurchaseResponse response = PurchaseResponse.of(flightData, rate, saleId);
 
         // Request 4 é assíncrono
-        fidelityService.enqueueBonus(user, response.getValueDolar());
+        fidelityService.enqueueBonus(user, response.getValueDolar(), ft);
 
         return response;
     }

@@ -24,23 +24,33 @@ public class ExchangeService {
         this.rest = rest;
     }
 
-    public Double getRate() {
+    public Double getRate(boolean ft) {
+
         try {
             Double rate = rest.getForObject(exchangeUrl + "/convert", Double.class);
 
-            storeRate(rate);
+            if (ft) {
+                logger.info("[Exchange][FT=ON] Taxa obtida com sucesso: {}", rate);
+                storeRate(rate);
+            }
 
             return rate;
 
         } catch (Exception e) {
+
+            if (!ft) {
+                logger.error("[Exchange][FT=OFF] Falha na requisição. Subindo exceção.");
+                throw e;
+            }
+
             Double fallback = averageLastRates();
 
             if (fallback == null) {
-                logger.error("[Exchange] Falha na requisição e histórico vazio. Não é possível calcular média.");
+                logger.error("[Exchange][FT=ON] Falha e histórico vazio. Não é possível calcular média.");
                 throw new IllegalStateException("Exchange service indisponível e sem histórico.", e);
             }
 
-            logger.warn("[Exchange] Falha na requisição ao serviço. Usando média dos últimos valores: {}", fallback);
+            logger.warn("[Exchange][FT=ON] Falha na requisição. Usando média dos últimos 10 valores: {}", fallback);
 
             return fallback;
         }
