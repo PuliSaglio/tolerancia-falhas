@@ -20,101 +20,35 @@ import java.util.NoSuchElementException;
 @Service
 public class IMDTravelService {
 
-    private final RestTemplate rest = new RestTemplate();
-    private static final Logger logger = LoggerFactory.getLogger(IMDTravelService.class);
-    private static final String AIRLINES_URL = "http://airlines-hub:8084";
+    private final FlightService flightService;
+    private final ExchangeService exchangeService;
+    private final SalesService salesService;
+    private final FidelityService fidelityService;
+
+    public IMDTravelService(
+            FlightService flightService,
+            ExchangeService exchangeService,
+            SalesService salesService,
+            FidelityService fidelityService
+    ) {
+        this.flightService = flightService;
+        this.exchangeService = exchangeService;
+        this.salesService = salesService;
+        this.fidelityService = fidelityService;
+    }
 
     public PurchaseResponse processTicketPurchase(Long flight, String day, Long user, boolean ft) {
 
-        PurchaseResponse purchaseResponse = new PurchaseResponse();
+        var flightData = flightService.getFlight(flight, day);
+        var rate = exchangeService.getRate();
+        var saleId = salesService.registerSale(flight, day, ft);
 
-        // Request 1 - consulta voo
-        Map<String, Object> flightData = getFlightData(flight, day);
+        PurchaseResponse response = PurchaseResponse.of(flightData, rate, saleId);
 
-        Double valueUsd = Double.parseDouble(String.valueOf(flightData.get("value")));
-        purchaseResponse.setValueDolar(valueUsd);
-        Long flightNumber = Long.parseLong(String.valueOf(flightData.get("flightNumber")));
-        purchaseResponse.setFlight(flightNumber);
-        String dayInfo = String.valueOf(flightData.get("day"));
-        purchaseResponse.setDay(dayInfo);
+        // Request 4 é assíncrono
+        fidelityService.enqueueBonus(user, response.getValueDolar());
 
-        // Request 2 - taxa de câmbio
-        String exchangeUrl = "http://exchange:8083";
-        Double rate = rest.getForObject(exchangeUrl +"/convert", Double.class);
-        purchaseResponse.setRate(rate);
-
-        // Request 3 - registrar venda
-        Long transactionId = registerSale(flight, day, ft);
-        purchaseResponse.setTransactionId(transactionId);
-
-        // Request 4 - Fidelity
-        String fidelityUrl = "http://fidelity:8082";
-        rest.postForEntity(
-                String.format("%s/bonus?user=%s&bonus=%d", fidelityUrl, user,
-                        (int) Math.round(purchaseResponse.getValueDolar())),
-                null,
-                Void.class
-        );
-
-        return purchaseResponse;
-    }
-
-    private Map<String, Object> getFlightData(Long flight, String day) {
-        try {
-            ResponseEntity<Map<String, Object>> flightResp = rest.exchange(
-                    String.format("%s/flight?flight=%s&day=%s", AIRLINES_URL, flight, day),
-                    HttpMethod.GET,
-                    null,
-                    new ParameterizedTypeReference<Map<String, Object>>() {}
-            );
-
-            if (!flightResp.getStatusCode().is2xxSuccessful() || flightResp.getBody() == null) {
-                throw new NoSuchElementException("Voo não encontrado para os parâmetros fornecidos.");
-            }
-
-            return flightResp.getBody();
-
-        } catch (HttpClientErrorException.BadRequest e) {
-            throw new IllegalArgumentException("Parâmetros inválidos para consulta de voo.", e);
-        } catch (HttpServerErrorException e) {
-            throw new RuntimeException("Erro interno no serviço de voos.", e);
-        }
-    }
-
-    private Long registerSale(Long flight, String day, boolean ft) {
-        try {
-            RestTemplate restTemplate = this.rest;
-
-            if (ft) {
-                // ✅ Ativa tolerância: cria RestTemplate com timeout de 2s
-                var factory = new SimpleClientHttpRequestFactory();
-                factory.setConnectTimeout(2000);
-                factory.setReadTimeout(2000);
-                restTemplate = new RestTemplate(factory);
-                logger.info("[FT] Tolerância ativa: timeout de 2s configurado no Request 3");
-            }
-
-            ResponseEntity<Long> sellResp = restTemplate.postForEntity(
-                    String.format("%s/sell?flight=%s&day=%s", AIRLINES_URL, flight, day),
-                    null,
-                    Long.class
-            );
-
-            if (!sellResp.getStatusCode().is2xxSuccessful() || sellResp.getBody() == null) {
-                throw new NoSuchElementException("Vôo não encontrado para os parâmetros fornecidos.");
-            }
-
-            return sellResp.getBody();
-
-        } catch (HttpClientErrorException.BadRequest e) {
-            throw new IllegalArgumentException("Parâmetros inválidos para registrar venda.", e);
-        } catch (HttpServerErrorException e) {
-            throw new RuntimeException("Erro interno no serviço de vôos ao registrar venda.", e);
-        } catch (ResourceAccessException e) {
-            if (ft) {
-                throw new RuntimeException("Venda cancelada devido à alta latência (>2s) no serviço AirlinesHub.", e);
-            }
-            throw e;
-        }
+        return response;
     }
 }
+
