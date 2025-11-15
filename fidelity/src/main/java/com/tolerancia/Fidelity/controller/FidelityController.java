@@ -41,7 +41,7 @@ public class FidelityController {
             logger.info("Bônus adicionado com sucesso: user='{}', bonus={}", user, bonus);
             return ResponseEntity.noContent().build();
         } catch (IllegalArgumentException e) {
-            logger.warn("Erro ao adicionar pontos de bônus: {}", e.getMessage());
+            logger.warn("Erro ao adicionar pontos de bônus - {}", e.getMessage());
             return ResponseEntity.badRequest().build();
         } catch (Exception e){
             logger.error("Erro inesperado ao adicionar pontos", e);

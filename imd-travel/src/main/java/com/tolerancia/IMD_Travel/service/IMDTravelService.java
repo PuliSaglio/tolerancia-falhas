@@ -1,6 +1,5 @@
 package com.tolerancia.IMD_Travel.service;
 
-import com.tolerancia.IMD_Travel.controller.IMDTravelController;
 import com.tolerancia.IMD_Travel.model.PurchaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,8 +13,10 @@ import org.springframework.web.client.HttpServerErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Queue;
 
 @Service
 public class IMDTravelService {
@@ -50,5 +51,27 @@ public class IMDTravelService {
 
         return response;
     }
+
+    private void registerBonus(Long user, double valueUsd) {
+        try {
+            int bonus = (int) Math.round(valueUsd);
+
+            rest.postForEntity(
+                    String.format("%s/bonus?user=%s&bonus=%d", FIDELITY_URL, user, bonus),
+                    null,
+                    Void.class
+            );
+
+        } catch (HttpClientErrorException.BadRequest e) {
+            throw new IllegalArgumentException(e.getMessage());
+        } catch (HttpServerErrorException e) {
+            throw new RuntimeException(e.getMessage());
+        } catch (Exception e) {
+            logger.error("Erro inesperado ao registrar pontos de bônus na Fidelity.", e);
+            throw e;
+        }
+    }
+
+
 }
 

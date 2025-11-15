@@ -87,7 +87,7 @@ public class FailureManager {
         FailureSpec spec = specs.get(endpointId);
 
         if (ThreadLocalRandom.current().nextDouble() < spec.probability()) {
-            logger.error("[OMISSION FAILURE] {}", endpointId);
+            logger.error("[OMISSION FAILURE] {} - Omissão de resposta!", endpointId);
             return true;
         }
         return false;
