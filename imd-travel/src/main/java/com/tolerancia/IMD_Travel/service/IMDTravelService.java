@@ -40,7 +40,7 @@ public class IMDTravelService {
 
     public PurchaseResponse processTicketPurchase(Long flight, String day, Long user, boolean ft) {
 
-        var flightData = flightService.getFlight(flight, day);
+        var flightData = flightService.getFlight(flight, day, ft);
         var rate = exchangeService.getRate(ft);
         var saleId = salesService.registerSale(flight, day, ft);
 
