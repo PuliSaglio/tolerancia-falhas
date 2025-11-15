@@ -1,5 +1,7 @@
 package com.tolerancia.IMD_Travel.model;
 
+import java.util.Map;
+
 public class PurchaseResponse {
 
     private Long flight;
@@ -19,6 +21,22 @@ public class PurchaseResponse {
     }
 
     public PurchaseResponse() { }
+
+    public static PurchaseResponse of(Map<String, Object> flightData, Double rate, Long transactionId) {
+
+        Long flightNumber = Long.parseLong(String.valueOf(flightData.get("flightNumber")));
+        String day = String.valueOf(flightData.get("day"));
+        Double valueUsd = Double.parseDouble(String.valueOf(flightData.get("value")));
+
+        return new PurchaseResponse(
+                flightNumber,
+                null, // user não vem do serviço externo, é setado depois se quiser
+                day,
+                valueUsd,
+                rate,
+                transactionId
+        );
+    }
 
     public Long getFlight() {
         return flight;
