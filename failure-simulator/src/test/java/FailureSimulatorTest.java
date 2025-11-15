@@ -23,7 +23,7 @@ public class FailureSimulatorTest {
         );
 
         FailureManager manager = new FailureManager(specs, strategies);
-        ResponseEntity<?> response = manager.maybeFail("/exchange");
+        ResponseEntity<?> response = manager.errorFailure("/exchange");
 
         assertNotNull(response);
         assertEquals(HttpStatus.INTERNAL_SERVER_ERROR, response.getStatusCode());

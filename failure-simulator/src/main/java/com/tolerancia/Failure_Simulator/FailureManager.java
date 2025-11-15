@@ -26,7 +26,7 @@ public class FailureManager {
         this.strategies = strategies;
     }
 
-    public ResponseEntity<?> maybeFail(String endpointId) {
+    public ResponseEntity<?> errorFailure(String endpointId) {
         FailureSpec spec = specs.get(endpointId);
         if (spec == null) return null;
 

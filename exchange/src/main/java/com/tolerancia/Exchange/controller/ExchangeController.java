@@ -30,7 +30,7 @@ public class ExchangeController {
      */
     @GetMapping("/convert")
     public ResponseEntity<?> getExchangeRate() {
-        ResponseEntity<?> failResponse = failureManager.maybeFail("/convert");
+        ResponseEntity<?> failResponse = failureManager.errorFailure("/convert");
         if(failResponse != null) return failResponse;
 
         try {
