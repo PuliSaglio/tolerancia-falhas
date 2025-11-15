@@ -51,27 +51,5 @@ public class IMDTravelService {
 
         return response;
     }
-
-    private void registerBonus(Long user, double valueUsd) {
-        try {
-            int bonus = (int) Math.round(valueUsd);
-
-            rest.postForEntity(
-                    String.format("%s/bonus?user=%s&bonus=%d", FIDELITY_URL, user, bonus),
-                    null,
-                    Void.class
-            );
-
-        } catch (HttpClientErrorException.BadRequest e) {
-            throw new IllegalArgumentException(e.getMessage());
-        } catch (HttpServerErrorException e) {
-            throw new RuntimeException(e.getMessage());
-        } catch (Exception e) {
-            logger.error("Erro inesperado ao registrar pontos de bônus na Fidelity.", e);
-            throw e;
-        }
-    }
-
-
 }
 
