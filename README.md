@@ -76,11 +76,11 @@ seguinte forma (Baseado na estrutura: Tipo, Probabilidade, Duração):
 
 ### Request 2 /convert (Exchange)
 
-- Fallback com média dos 10 últimos valores + valor padrão
+- Fallback com média dos 10 últimos valores + valor padrão.
 
 ### Request 3 /sell (AirlinesHub)
 
-- Timeout curto + falha graciosa
+- Timeout curto + falha graciosa.
 
 ### Request 1 /bonus (Fidelity)
 
