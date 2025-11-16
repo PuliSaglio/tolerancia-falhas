@@ -68,6 +68,24 @@ seguinte forma (Baseado na estrutura: Tipo, Probabilidade, Duração):
 - Request 3: Fail (Time=5s, 0.1, 10s)
 - Request 4: Fail (Crash, 0.02, _ )
 
+## Mecanismos de Tolerância a falhas
+
+### Request 1 /flight (AirlinesHub)
+
+- Timeout + Retry + Fallback com cache local.
+
+### Request 2 /convert (Exchange)
+
+- Fallback com média dos 10 últimos valores + valor padrão
+
+### Request 3 /sell (AirlinesHub)
+
+- Timeout curto + falha graciosa
+
+### Request 1 /bonus (Fidelity)
+
+- Fallback com fila + retry agendado.
+
 ## Execução do Sistema
 
 Para execução do projeto em ambiente Docker, executar:
