@@ -4,6 +4,8 @@
 
 Este projeto implementa um sistema distribuído de compra de passagens, desenvolvido com foco em tolerância a falhas. A solução adota uma arquitetura de microsserviços, na qual os componentes se comunicam por meio de serviços REST.
 
+Link para apresentação: https://www.youtube.com/watch?v=WIYacFB7lfI
+
 ## Características Principais
 
 - Arquitetura de microsserviços desenvolvida com Spring Boot.
