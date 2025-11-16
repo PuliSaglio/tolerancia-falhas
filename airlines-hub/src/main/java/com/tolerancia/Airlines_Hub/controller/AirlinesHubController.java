@@ -43,14 +43,11 @@ public class AirlinesHubController {
         DeferredResult<ResponseEntity<?>> deferred = new DeferredResult<>();
 
         if (failureManager.omissionFailure("/flight")) {
-            logger.info("entrou no omission deferred='{}'", deferred);
             return deferred;
         }
 
         try {
             Flight flightData = flightService.getFlight(flight, day);
-            logger.info("Informações do voo recuperadas com sucesso: flight='{}', day='{}', value'{}'",
-                    flightData.getFlightNumber(), flightData.getDay(), flightData.getValue());
             deferred.setResult(new ResponseEntity<>(flightData, HttpStatus.OK));
             return deferred;
 

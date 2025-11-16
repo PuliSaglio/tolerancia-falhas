@@ -20,6 +20,8 @@ public class ExchangeService {
 
     private final Deque<Double> lastRates = new ArrayDeque<>(10);
 
+    private static final double DEFAULT_RATE = 5.0;
+
     public ExchangeService(RestTemplate rest) {
         this.rest = rest;
     }
@@ -29,28 +31,23 @@ public class ExchangeService {
         try {
             Double rate = rest.getForObject(exchangeUrl + "/convert", Double.class);
 
-            if (ft) {
-                logger.info("[Exchange][FT=ON] Taxa obtida com sucesso: {}", rate);
-                storeRate(rate);
-            }
-
+            storeRate(rate);
             return rate;
 
         } catch (Exception e) {
 
             if (!ft) {
-                logger.error("[Exchange][FT=OFF] Falha na requisição. Subindo exceção.");
                 throw e;
             }
 
             Double fallback = averageLastRates();
 
             if (fallback == null) {
-                logger.error("[Exchange][FT=ON] Falha e histórico vazio. Não é possível calcular média.");
-                throw new IllegalStateException("Exchange service indisponível e sem histórico.", e);
+                logger.warn("[FT] Falha e histórico vazio. Usando taxa padrão: {}", DEFAULT_RATE);
+                return DEFAULT_RATE;
             }
 
-            logger.warn("[Exchange][FT=ON] Falha na requisição. Usando média dos últimos 10 valores: {}", fallback);
+            logger.warn("[FT] Falha na requisição. Usando média dos últimos {} valores: {}", lastRates.size(), fallback);
 
             return fallback;
         }
@@ -71,6 +68,6 @@ public class ExchangeService {
         return lastRates.stream()
                 .mapToDouble(Double::doubleValue)
                 .average()
-                .orElse(0.0);
+                .orElse(DEFAULT_RATE);
     }
 }

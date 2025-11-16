@@ -47,11 +47,11 @@ public class FlightService {
         while (attempts < 3) {
             try {
                 Map<String, Object> resp = getFlightData(flight, day, ft);
-                logger.warn("[FT] Tentativa " + (attempts + 1) + " bem-sucedida.");
+                logger.warn("Tentativa " + (attempts + 1) + " bem-sucedida.");
                 flightCache.put(flight + "_" + day, resp); // Atualiza o cache
                 return resp;
 
-            } catch (ResourceAccessException | NoSuchElementException | FlightServiceInternalException e) {
+            } catch (ResourceAccessException | FlightServiceInternalException e) {
                 attempts++;
                 logger.warn("[FT] Tentativa " + attempts + " falhou. Motivo: " + e.getMessage());
             }
@@ -75,11 +75,12 @@ public class FlightService {
             RestTemplate restTemplate = this.rest;
 
             if (ft) {
-                // Ativa tolerância: cria RestTemplate com timeout de 2s
+                // Ativa tolerância: cria RestTemplate com timeout de 5s
                 var factory = new SimpleClientHttpRequestFactory();
                 factory.setConnectTimeout(5000);
                 factory.setReadTimeout(5000);
                 restTemplate = new RestTemplate(factory);
+                logger.info("[FT] Tolerância ativa: timeout de 5s configurado no Request 1");
             }
 
             ResponseEntity<Map<String, Object>> resp = restTemplate.exchange(
@@ -99,7 +100,6 @@ public class FlightService {
             throw new IllegalArgumentException("Parâmetros inválidos.", e);
         } catch (HttpServerErrorException | ResourceAccessException e) {
             if (ft) { // Tolerância ativa
-                logger.info("[FT] Tolerância ativa: timeout de 5s ativado no Request 1");
                 throw new FlightServiceInternalException("Erro interno no serviço de voos.", e);
             }
             throw e;

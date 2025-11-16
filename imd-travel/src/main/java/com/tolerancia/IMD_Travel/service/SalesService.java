@@ -61,6 +61,7 @@ public class SalesService {
 
         } catch (ResourceAccessException e) {
             if (ft) {
+                logger.warn("Venda não registrada devido à latência (>2s). Cancelando venda...");
                 throw new RuntimeException("Venda cancelada por latência (>2s).", e);
             }
             throw e;

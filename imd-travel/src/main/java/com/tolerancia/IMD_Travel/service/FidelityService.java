@@ -36,16 +36,12 @@ public class FidelityService {
         int bonus = (int) Math.round(usdValue);
 
         try {
-            logger.info("[Fidelity] Tentando envio imediato → user={}, bonus={}", user, bonus);
-
             rest.postForEntity(
                     String.format("%s/bonus?user=%s&bonus=%d",
                             fidelityUrl, user, bonus),
                     null,
                     Void.class
             );
-
-            logger.info("[Fidelity] Envio imediato bem-sucedido → user={}, bonus={}", user, bonus);
 
         } catch (Exception e) {
             logger.error("[Fidelity] Falha no envio imediato → user={}, bonus={}, erro={}",
