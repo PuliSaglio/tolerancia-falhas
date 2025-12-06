@@ -6,6 +6,8 @@ Este projeto implementa um sistema distribuído de compra de passagens, desenvol
 
 Link para apresentação (Áudio corrigido): [https://www.youtube.com/watch?v=4MWWi_Ir0Is](https://www.youtube.com/watch?v=4MWWi_Ir0Is)
 
+Link para documentação final: https://docs.google.com/document/d/1BPuvcTQM5Zs_ZoUyYAY5eFnWe6CZLz9IyFM2HfJ4mlo/edit?tab=t.0
+
 ## Características Principais
 
 - Arquitetura de microsserviços desenvolvida com Spring Boot.
@@ -111,7 +113,7 @@ curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user
 curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user=3&ft=false"
 ```
 
-## Teste com k6
+## Testes com k6
 
 ```bash
 # Teste de carga com tolerância a falhas
