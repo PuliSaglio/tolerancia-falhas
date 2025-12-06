@@ -110,3 +110,25 @@ curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user
 # Teste sem tolerância a falhas
 curl -i -X POST "http://localhost:8081/buyTicket?flight=1001&day=2025-12-01&user=3&ft=false"
 ```
+
+## Teste com k6
+
+```bash
+# Teste de carga com tolerância a falhas
+k6 run load_test.js -e FT=true | tee result_load_test_ft_true.txt
+```
+
+```bash
+# Teste de carga sem tolerância a falhas
+k6 run load_test.js -e FT=false | tee result_load_test_ft_false.txt
+```
+
+```bash
+# Teste de estresse com tolerância a falhas
+k6 run stress_test.js -e FT=true | tee result_stress_test_ft_true.txt
+```
+
+```bash
+# Teste de estresse sem tolerância a falhas
+k6 run stress_test.js -e FT=false | tee result_stress_test_ft_false.txt
+```
