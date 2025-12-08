@@ -4,9 +4,7 @@
 
 Este projeto implementa um sistema distribuído de compra de passagens, desenvolvido com foco em tolerância a falhas. A solução adota uma arquitetura de microsserviços, na qual os componentes se comunicam por meio de serviços REST.
 
-Link para apresentação (Áudio corrigido): [https://www.youtube.com/watch?v=4MWWi_Ir0Is](https://www.youtube.com/watch?v=4MWWi_Ir0Is)
-
-Link para documentação final: https://docs.google.com/document/d/1BPuvcTQM5Zs_ZoUyYAY5eFnWe6CZLz9IyFM2HfJ4mlo/edit?tab=t.0
+Link para apresentação final: https://www.youtube.com/watch?v=46u0Ewg590s
 
 ## Características Principais
 
